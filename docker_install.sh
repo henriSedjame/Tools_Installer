@@ -1,16 +1,35 @@
  
 #!/bin/bash
 
-#Installation de docker
 
-sudo apt-get purge docker lxc-docker docker-engine docker.io
-sudo apt-get install  curl  apt-transport-https ca-certificates software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get update
-sudo apt-get install docker-ce
+echo ' STEP #1 >>> Mise à jour de la liste des paquetes existants'
+sudo apt update
+
+echo ' STEP #2 >>> Installation des paquest pré requis'
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+
+echo ' STEP #3 >>> Ajout de la clé GPG du référentiel Docker officiel au système'
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+echo ' STEP #4 >>> Ajout du référentiel docker aux sources APT'
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+
+echo ' STEP #5 >>> Mise à jour des paquets avec le nouveau référentiel ajouté'
+sudo apt update
+
+echo ' STEP #6 >>> Vérificaion de l''installation à partir du référentiel Docer au lieu du référentiel par défaut Ubuntu'
+apt-cache policy docker-ce
+
+echo ' STEP #7 >>> Installation de docker'
+sudo apt install docker-ce
+
+echo ' STEP #8 >>> Vériication du statut de docker'
 sudo systemctl status docker
 
-#Installation de docker compose
-sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+echo ' STEP#9 >>> Ajout de l''utilisateur au groupe docker'
+sudo usermod -aG docker ubuntu
+su - ubuntu
+id -nG
 
+echo ' STEP #10 >>> Installation de docker compose'
+sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
