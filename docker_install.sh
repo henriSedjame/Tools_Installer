@@ -25,11 +25,3 @@ sudo apt install docker-ce
 
 echo ' STEP #8 >>> Vériication du statut de docker'
 sudo systemctl status docker
-
-echo ' STEP#9 >>> Ajout de l''utilisateur au groupe docker'
-sudo usermod -aG docker ubuntu
-su - ubuntu
-id -nG
-
-echo ' STEP #10 >>> Installation de docker compose'
-sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
